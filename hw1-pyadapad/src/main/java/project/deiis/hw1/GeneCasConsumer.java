@@ -41,25 +41,26 @@ public class GeneCasConsumer extends CasConsumer_ImplBase {
     }
 
     FSIterator it = jcas.getAnnotationIndex(Results.type).iterator();
-    while (it.hasNext()) {
-      Results result = (Results) it.next();
-      PrintWriter writer;
-      try {
-        writer = new PrintWriter(new BufferedWriter(new FileWriter(outFile, true)));
-        writer.print(result.getSentenceId() + " | ");
-        writer.print(result.getGeneStartOffset() + " ");
-        writer.print(result.getGeneStartOffset() + " | ");
-        writer.print(result.getGeneProduct());
-        writer.println();
-        writer.close();
-      } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+    PrintWriter writer = null;
+    try {
+      writer = new PrintWriter(new BufferedWriter(new FileWriter(outFile, true)));
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
+    while (it.isValid()) {
+      Results result = (Results) it.get();
+      //System.out.println(result.getGeneProduct());
+      writer.print(result.getSentenceId() + "|");
+      writer.print(result.getGeneStartOffset() + " ");
+      writer.print(result.getGeneEndOffset() + "|");
+      writer.print(result.getGeneProduct());
+      writer.println();
+      it.moveToNext();
+    }
+    writer.close();
   }
-
 }
