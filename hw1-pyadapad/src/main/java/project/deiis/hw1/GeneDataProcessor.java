@@ -44,6 +44,7 @@ public class GeneDataProcessor extends JCasAnnotator_ImplBase {
 
   public void processInstance(JCas jCas) {
     FSIterator<Annotation> it = jCas.getAnnotationIndex(InputData.type).iterator();
+    int counter = 0;
     while (it.hasNext()) {
       InputData input = (InputData) it.next();
       String sentenceId = input.getSentenceId();
@@ -84,6 +85,7 @@ public class GeneDataProcessor extends JCasAnnotator_ImplBase {
             startOffset = geneProduct.substring(0, start -1).replace(" ", "").length();
           results.setGeneStartOffset(startOffset);
           results.setGeneEndOffset(startOffset + gene.replace(" ", "").length() - 1);
+          results.setBegin(counter++);
           results.addToIndexes();
         }
       }

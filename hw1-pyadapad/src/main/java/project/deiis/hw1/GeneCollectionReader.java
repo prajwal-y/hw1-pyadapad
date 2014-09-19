@@ -84,12 +84,13 @@ public class GeneCollectionReader extends CollectionReader_ImplBase {
     }
     
     BufferedReader br = new BufferedReader(new FileReader(inputFile));
-    String line;
+    String line; int counter = 0;
     while ((line = br.readLine()) != null) {
       InputData input = new InputData(jcas);
       String sentenceId = line.split(" ")[0];
       input.setSentenceId(sentenceId);
       input.setGeneData(line.substring(sentenceId.length() + 1));
+      input.setBegin(counter++);
       input.addToIndexes();
     }
   }
