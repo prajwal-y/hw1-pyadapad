@@ -35,21 +35,10 @@ import org.apache.uima.util.Progress;
 
 import project.deiis.types.InputData;
 
-/**
- * A simple collection reader that reads documents from a directory in the filesystem. It can be
- * configured with the following parameters:
- * <ul>
- * <li><code>InputDirectory</code> - path to directory containing files</li>
- * <li><code>Encoding</code> (optional) - character encoding of the input files</li>
- * <li><code>Language</code> (optional) - language of the input documents</li>
- * </ul>
- * 
- * 
- */
 public class GeneCollectionReader extends CollectionReader_ImplBase {
 
   public static final String PARAM_INPUTFILE = "InputFile";
-  
+
   private File inputFile;
 
   /**
@@ -58,12 +47,11 @@ public class GeneCollectionReader extends CollectionReader_ImplBase {
   public void initialize() throws ResourceInitializationException {
     File file = new File(((String) getConfigParameterValue(PARAM_INPUTFILE)).trim());
     if (!file.exists()) {
-      throw new ResourceInitializationException(ResourceConfigurationException.DIRECTORY_NOT_FOUND,
-              new Object[] { PARAM_INPUTFILE, this.getMetaData().getName(), file.getPath() });
+      throw new ResourceInitializationException("Input file not found", new Object[] {
+          PARAM_INPUTFILE, this.getMetaData().getName(), file.getPath() });
     }
     inputFile = file;
   }
-  
 
   /**
    * @see org.apache.uima.collection.CollectionReader#hasNext()
@@ -73,7 +61,9 @@ public class GeneCollectionReader extends CollectionReader_ImplBase {
   }
 
   /**
-   * @see org.apache.uima.collection.CollectionReader#getNext(org.apache.uima.cas.CAS)
+   * @see org.apache.uima.collection.CollectionReader#getNext(org.apache.uima.cas.CAS). Reads the
+   *      input file line by line, splits the sentenceId and the string which contains gene data
+   *      before passing to the GeneDataProcessor.
    */
   public void getNext(CAS aCAS) throws IOException, CollectionException {
     JCas jcas;
@@ -82,9 +72,10 @@ public class GeneCollectionReader extends CollectionReader_ImplBase {
     } catch (CASException e) {
       throw new CollectionException(e);
     }
-    
+
     BufferedReader br = new BufferedReader(new FileReader(inputFile));
-    String line; int counter = 0;
+    String line;
+    int counter = 0;
     while ((line = br.readLine()) != null) {
       InputData input = new InputData(jcas);
       String sentenceId = line.split(" ")[0];

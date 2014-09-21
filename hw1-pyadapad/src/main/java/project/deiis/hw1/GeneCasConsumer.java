@@ -25,14 +25,10 @@ public class GeneCasConsumer extends CasConsumer_ImplBase {
 
   public void initialize() throws ResourceInitializationException {
     outFile = new File(((String) getConfigParameterValue(PARAM_OUTPUTDIR)).trim());
-    /*
-     * if (!outFile.exists()) { System.out.println("File does not exist"); }
-     */
   }
 
   @Override
   public void processCas(CAS aCAS) throws ResourceProcessException {
-
     JCas jcas;
     try {
       jcas = aCAS.getJCas();
@@ -40,20 +36,17 @@ public class GeneCasConsumer extends CasConsumer_ImplBase {
       throw new ResourceProcessException(e);
     }
 
-    FSIterator it = jcas.getAnnotationIndex(Results.type).iterator();
+    FSIterator<?> it = jcas.getAnnotationIndex(Results.type).iterator();
     PrintWriter writer = null;
     try {
       writer = new PrintWriter(new BufferedWriter(new FileWriter(outFile, true)));
     } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println("FileNotFoundException occurred: " + e.getMessage());
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println("IOException occurred: " + e.getMessage());
     }
     while (it.isValid()) {
       Results result = (Results) it.get();
-      //System.out.println(result.getGeneProduct());
       writer.print(result.getSentenceId() + "|");
       writer.print(result.getGeneStartOffset() + " ");
       writer.print(result.getGeneEndOffset() + "|");
