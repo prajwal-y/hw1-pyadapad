@@ -25,6 +25,7 @@ public class GeneDataProcessor extends JCasAnnotator_ImplBase {
   @Override
   public void process(JCas jCas) throws AnalysisEngineProcessException {
     // Open the model file and train the chunker with the gene model
+    // The model is pre-trained
     File modelFile = new File("./src/main/resources/data/gene_model");
     chunker = null;
     try {
@@ -38,9 +39,9 @@ public class GeneDataProcessor extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * This method processes the input from the collection reader.
-   * Gets the sentence and fetches the gene names using the Chunking 
-   * API of LingPipe
+   * This method processes the input from the collection reader. Gets the sentence and fetches the
+   * gene names using the Chunking API of LingPipe
+   * 
    * @param jCas
    */
   public void processInstance(JCas jCas) {
