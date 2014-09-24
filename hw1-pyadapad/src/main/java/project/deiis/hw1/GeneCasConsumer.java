@@ -17,16 +17,30 @@ import org.apache.uima.resource.ResourceProcessException;
 
 import project.deiis.types.Results;
 
+/**
+ * This class is responsible for writing the results to the specified output file.
+ * GeneDataProcessor sends an entry for each gene name obtained to the consumer, which processes
+ * them and writes them to the output file.
+ * 
+ * @author pyadapad
+ *
+ */
 public class GeneCasConsumer extends CasConsumer_ImplBase {
 
   public static final String PARAM_OUTPUTDIR = "OutputFile";
 
   private File outFile;
 
+  /**
+   * Initializes the output file object
+   */
   public void initialize() throws ResourceInitializationException {
     outFile = new File(((String) getConfigParameterValue(PARAM_OUTPUTDIR)).trim());
   }
 
+  /**
+   * This method processes the gene data received from the annotator
+   */
   @Override
   public void processCas(CAS aCAS) throws ResourceProcessException {
     JCas jcas;

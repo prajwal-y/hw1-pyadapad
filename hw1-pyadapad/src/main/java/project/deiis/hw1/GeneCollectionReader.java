@@ -1,22 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package project.deiis.hw1;
 
 import java.io.BufferedReader;
@@ -29,12 +10,19 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.collection.CollectionReader_ImplBase;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceConfigurationException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 
 import project.deiis.types.InputData;
 
+/**
+ * This class is responsible for reading input text line by line, and splitting the sentenceId and
+ * the string containing gene information (geneData) and passing the information to the analysis
+ * engine using the InputData feature in the Cas.
+ * 
+ * @author pyadaoad
+ *
+ */
 public class GeneCollectionReader extends CollectionReader_ImplBase {
 
   public static final String PARAM_INPUTFILE = "InputFile";
@@ -61,9 +49,8 @@ public class GeneCollectionReader extends CollectionReader_ImplBase {
   }
 
   /**
-   * @see org.apache.uima.collection.CollectionReader#getNext(org.apache.uima.cas.CAS). Reads the
-   *      input file line by line, splits the sentenceId and the string which contains gene data
-   *      before passing to the GeneDataProcessor.
+   * Reads the input file line by line, splits the sentenceId and the string which contains gene
+   * data before passing to the GeneDataProcessor.
    */
   public void getNext(CAS aCAS) throws IOException, CollectionException {
     JCas jcas;

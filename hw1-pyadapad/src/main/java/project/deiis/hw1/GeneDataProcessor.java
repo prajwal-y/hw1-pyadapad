@@ -18,6 +18,15 @@ import com.aliasi.chunk.Chunker;
 import com.aliasi.chunk.Chunking;
 import com.aliasi.util.AbstractExternalizable;
 
+/**
+ * This class is responsible for using the LingPipe named entity recognition library to
+ * extract the gene names based on a trained model (GENTAG). GeneDataProcessor is also responsible
+ * for calculating the start and end offsets for the output, and passing the output to Cas Consumer
+ * using the Results feature.
+ * 
+ * @author pyadapad
+ *
+ */
 public class GeneDataProcessor extends JCasAnnotator_ImplBase {
 
   Chunker chunker = null;
